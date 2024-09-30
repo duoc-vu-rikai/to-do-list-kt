@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">prj1</string>
+    <string name="title_activity_to_do_view_model">ToDoViewModel</string>
+</resources>
