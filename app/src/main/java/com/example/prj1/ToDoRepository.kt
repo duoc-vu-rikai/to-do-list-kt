@@ -29,4 +29,12 @@ class ToDoRepository {
     fun sortTaskRe() {
         toDoList.sortBy { it.isDone }
     }
+
+    fun editTask(id: Int, newTaskName: String) {
+        toDoList.find { it.id == id }?.let {
+            it.task = newTaskName // Cập nhật tên công việc
+            Log.d("ToDoRepository", "Task edited: $id to $newTaskName")
+        }
+    }
+
 }
