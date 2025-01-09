@@ -4,12 +4,14 @@ import android.util.Log
 
 class ToDoRepository {
     private val toDoList = mutableListOf(
-        ToDoItem(1, "Học Jetpack Compose"  ,true),
+        ToDoItem(1, "Học Jetpack Compose", true),
         ToDoItem(2, "Làm bài tập lập trình"),
-        ToDoItem(3, "Đọc tài liệu về MVVM",true)
+        ToDoItem(3, "Đọc tài liệu về MVVM", true),
+        ToDoItem(4, "Đọc tài liệu về MVC", true)
     )
 
-    fun getToDoList() = toDoList.toList() // Trả về danh sách mới để không cho phép thay đổi bên ngoài
+    fun getToDoList() =
+        toDoList.toList() // Trả về danh sách mới để không cho phép thay đổi bên ngoài
 
 
     fun addTask(task: ToDoItem) {
@@ -23,7 +25,7 @@ class ToDoRepository {
     }
 
     fun removeTask(id: Int) {
-        toDoList.removeAll{it.id == id}
+        toDoList.removeAll { it.id == id }
     }
 
     fun sortTaskRe() {
