@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +29,10 @@ class MainActivity : AppCompatActivity() {
             },
             onDeleteClick = {   taskId ->
                 viewModel.removeTask(taskId)
+            },
+            onEditClick = {
+                    task ->
+                showEditTaskDialog(task)
             }
         )
         taskRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -35,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.toDoList.observe(this, Observer { toDoList ->
             adapter.submitList(toDoList)
+            Log.d("MainActivity", "ToDoList updated: $toDoList") // Log khi danh sách được cập nhật
         })
 
         addButton.setOnClickListener {
@@ -49,5 +55,25 @@ class MainActivity : AppCompatActivity() {
             viewModel.sortTask()
         }
 
+    }
+
+    private fun showEditTaskDialog(task: ToDoItem) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_task, null)
+        val editText = dialogView.findViewById<EditText>(R.id.et_edit_task)
+        editText.setText(task.task)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Chỉnh sửa công việc")
+            .setView(dialogView)
+            .setPositiveButton("Lưu") { _, _ ->
+                val newTaskName = editText.text.toString()
+                if (newTaskName.isNotEmpty()) {
+                    viewModel.editTask(task.id, newTaskName)
+                }
+            }
+            .setNegativeButton("Hủy", null)
+            .create()
+
+        dialog.show()
     }
 }

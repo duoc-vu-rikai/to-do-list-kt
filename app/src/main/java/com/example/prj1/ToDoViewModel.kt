@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 
 class ToDoViewModel : ViewModel() {
     val repository = ToDoRepository()
-    var lis = repository.getToDoList()
     private val _toDoList = MutableLiveData<List<ToDoItem>>()
     val toDoList: LiveData<List<ToDoItem>> = _toDoList
 
@@ -37,4 +36,10 @@ class ToDoViewModel : ViewModel() {
         _toDoList.value = repository.getToDoList().toList() // Đảm bảo là một danh sách mới
     }
 
+    fun editTask(id: Int, newTaskName: String) {
+        repository.editTask(id, newTaskName)
+        _toDoList.value = repository.getToDoList() // Cập nhật danh sách sau khi sửa
+        _toDoList.value = repository.getToDoList().toList() // Đảm bảo là một danh sách mới
+        Log.d("ToDoViewModel", "Edited task: $id to $newTaskName") // Log khi sửa công việc
+    }
 }

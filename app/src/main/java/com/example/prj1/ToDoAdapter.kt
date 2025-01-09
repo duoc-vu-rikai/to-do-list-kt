@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class ToDoAdapter(private val onTaskClick: (Int) -> Unit ,private val onDeleteClick: (Int) -> Unit ) :
+class ToDoAdapter(
+    private val onTaskClick: (Int) -> Unit ,
+    private val onDeleteClick: (Int) -> Unit ,
+    private val onEditClick: (ToDoItem) -> Unit ) :
     ListAdapter<ToDoItem, ToDoAdapter.ToDoViewHolder>(ToDoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
@@ -21,11 +24,12 @@ class ToDoAdapter(private val onTaskClick: (Int) -> Unit ,private val onDeleteCl
 
     override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
         val task = getItem(position)
-        holder.bind(task, onTaskClick , onDeleteClick)
+        holder.bind(task, onTaskClick , onDeleteClick, onEditClick)
 
         holder.itemView.findViewById<Button>(R.id.btnRemove).setOnClickListener{
             onDeleteClick(task.id)
         }
+
     }
 
     class ToDoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,7 +37,7 @@ class ToDoAdapter(private val onTaskClick: (Int) -> Unit ,private val onDeleteCl
         private val taskCheckBox: CheckBox = itemView.findViewById(R.id.cb_task_done)
         private val removeButton: Button = itemView.findViewById(R.id.btnRemove)
 
-        fun bind(task: ToDoItem, onTaskClick: (Int) -> Unit , onDeleteClick: (Int) -> Unit) {
+        fun bind(task: ToDoItem, onTaskClick: (Int) -> Unit , onDeleteClick: (Int) -> Unit ,onEditClick: (ToDoItem) -> Unit) {
             taskName.text = task.task
             taskCheckBox.isChecked = task.isDone
             taskCheckBox.setOnClickListener {
@@ -42,6 +46,11 @@ class ToDoAdapter(private val onTaskClick: (Int) -> Unit ,private val onDeleteCl
             removeButton.setOnClickListener{
                 onDeleteClick(task.id)
 
+            }
+
+            itemView.setOnLongClickListener(){
+                onEditClick(task)
+                true
             }
         }
     }

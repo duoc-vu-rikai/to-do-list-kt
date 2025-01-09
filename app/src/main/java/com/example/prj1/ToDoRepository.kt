@@ -7,7 +7,8 @@ class ToDoRepository {
         ToDoItem(1, "Học Jetpack Compose", true),
         ToDoItem(2, "Làm bài tập lập trình"),
         ToDoItem(3, "Đọc tài liệu về MVVM", true),
-        ToDoItem(4, "Đọc tài liệu về MVC", true)
+        ToDoItem(4, "Đọc tài liệu về MVC", true),
+        ToDoItem(5, "Đọc tài liệu về MVC", true)
     )
 
     fun getToDoList() =
